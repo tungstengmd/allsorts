@@ -4,7 +4,7 @@ servstart() {
     doas ln -s /etc/sv/"$OPTARG" /var/service/
 }
 servstop() {
-    doas rm /var/service/"$1"
+    doas rm /var/service/"$OPTARG"
 }
 helpFunction() {
     printf '%s\n' "
