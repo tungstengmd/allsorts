@@ -1,27 +1,24 @@
-#!/usr/bin/bash
-
-servstart() {
-    doas ln -s /etc/sv/"$OPTARG" /var/service/
-}
-servstop() {
-    doas rm /var/service/"$OPTARG"
-}
+#!/usr/bin/ksh
 helpFunction() {
     printf '%s\n' "
 servctl - enable and disable services
 OPTIONS
     -E - enable a service
     -D - disable a service
+    -T - start a service
+    -B - stop a service
     -H - display this help
     "
 }
 if [ -z "$1" ]; then
   helpFunction
 fi
-while getopts ":E:D:H" opt; do
-   case "$opt" in
-      E ) servstart ;;
-      D ) servstop ;;
+while getopts "E:D:HT:B:" optchar; do
+   case $optchar in
+      E ) doas ln -s /etc/sv/"$OPTARG" /var/service/ ;;
+      D ) doas rm /var/service/"$OPTARG" ;;
       H ) helpFunction ;;
+      T ) doas sv up "$OPTARG" ;;
+      B ) doas sv down "$OPTARG" ;;
    esac
 done
