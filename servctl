@@ -7,18 +7,23 @@ OPTIONS
     -D - disable a service
     -T - start a service
     -B - stop a service
+    -R - restart a service
     -H - display this help
+    -L - list running services (if next arg is created, lists sv services)
     "
 }
 if [ -z "$1" ]; then
   helpFunction
 fi
-while getopts "E:D:HT:B:" optchar; do
+while getopts "E:D:HT:B:R:LS:" optchar; do
    case $optchar in
       E ) doas ln -s /etc/sv/"$OPTARG" /var/service/ ;;
       D ) doas rm /var/service/"$OPTARG" ;;
       H ) helpFunction ;;
-      T ) doas sv up "$OPTARG" ;;
-      B ) doas sv down "$OPTARG" ;;
+      T ) doas sv u "$OPTARG" ;;
+      B ) doas sv d "$OPTARG" ;;
+      R ) doas sv r "$OPTARG" ;;
+      L ) [ $2 = "created" ] && lsd /etc/sv || lsd /var/service ;;
+      S ) doas sv s "$OPTARG" ;;
    esac
 done
