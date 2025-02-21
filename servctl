@@ -15,7 +15,7 @@ OPTIONS
 if [ -z "$1" ]; then
   helpFunction
 fi
-while getopts "E:D:HT:B:R:LS:" optchar; do
+while getopts "E(enable):D(disable):H(help)T(top):B(bottom):R(restart):L(list)S(status):" optchar; do
    case $optchar in
       E ) doas ln -s /etc/sv/"$OPTARG" /var/service/ ;;
       D ) doas rm /var/service/"$OPTARG" ;;
@@ -23,7 +23,7 @@ while getopts "E:D:HT:B:R:LS:" optchar; do
       T ) doas sv u "$OPTARG" ;;
       B ) doas sv d "$OPTARG" ;;
       R ) doas sv r "$OPTARG" ;;
-      L ) [ $2 = "created" ] && lsd /etc/sv || lsd /var/service ;;
+      L ) [[ $2 = "created" ]] && lsd /etc/sv || lsd /var/service ;;
       S ) doas sv s "$OPTARG" ;;
    esac
 done
