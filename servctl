@@ -17,13 +17,13 @@ if [ -z "$1" ]; then
 fi
 while getopts "E(enable):D(disable):H(help)T(top):B(bottom):R(restart):L(list)S(status):" optchar; do
    case $optchar in
-      E ) doas ln -s /etc/sv/"$OPTARG" /var/service/ ;;
-      D ) doas rm /var/service/"$OPTARG" ;;
+      E ) doas ln -s /etc/sv/"$2" /var/service/ ;;
+      D ) doas rm /var/service/"$2" ;;
       H ) helpFunction ;;
-      T ) doas sv u "$OPTARG" ;;
-      B ) doas sv d "$OPTARG" ;;
-      R ) doas sv r "$OPTARG" ;;
+      T ) doas sv u "$2" ;;
+      B ) doas sv d "$2" ;;
+      R ) doas sv r "$2" ;;
       L ) [[ $2 = "created" ]] && lsd /etc/sv || lsd /var/service ;;
-      S ) doas sv s "$OPTARG" ;;
+      S ) doas sv s "$2" ;;
    esac
 done
