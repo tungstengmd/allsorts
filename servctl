@@ -3,13 +3,13 @@ helpFunction() {
     printf '%s\n' "
 servctl - enable and disable services
 OPTIONS
-    -E - enable a service
-    -D - disable a service
-    -T - start a service
-    -B - stop a service
-    -R - restart a service
-    -H - display this help
-    -L - list running services (if next arg is created, lists sv services)
+    -E, --enable  - enable a service
+    -D, --disable - disable a service
+    -T, --top     - start a service
+    -B, --bottom  - stop a service
+    -R, --restart - restart a service
+    -L, --list    - list running services (if next arg is created, lists sv services)
+    -H, --help    - display this help
     "
 }
 if [ -z "$1" ]; then
