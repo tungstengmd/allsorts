@@ -8,14 +8,27 @@ OPTIONS
     -T, --top     - start a service
     -B, --bottom  - stop a service
     -R, --restart - restart a service
-    -L, --list    - list running services (if next arg is created, lists sv services)
+    -L, --list    - list running services (if next arg is created, lists all services)
     -H, --help    - display this help
     "
 }
-if [ -z "$1" ]; then
-  helpFunction
+if [ -z $1 ]; then
+    helpFunction
 fi
-while getopts "E(enable):D(disable):H(help)T(top):B(bottom):R(restart):L(list)S(status):" optchar; do
+USAGE=$'[-?\n@(#)$Id: 'servctl' $\n]'
+USAGE+="[-author?harlow]"
+USAGE+="[-copyright?no one]"
+USAGE+="[-license?none, i don't license my shit]"
+USAGE+="[+NAME?servctl - sv wrapper]"
+USAGE+="[+DESCRIPTION?an sv wrapper for param lovers]"
+USAGE+="[E:enable?enable a service]"
+USAGE+="[D:disable?disable a service]"
+USAGE+="[T:top?turn a service on]"
+USAGE+="[B:bottom?turn a service off]"
+USAGE+="[R:restart?restart a service (useful for breakages)]"
+USAGE+="[L:list?list enabled services (or all if next arg is created)]"
+USAGE+="[H:help?display the help]"
+while getopts "$USAGE" optchar; do
    case $optchar in
       E ) doas ln -s /etc/sv/"$2" /var/service/ ;;
       D ) doas rm /var/service/"$2" ;;
