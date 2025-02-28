@@ -12,7 +12,7 @@ OPTIONS
     -H, --help    - display this help
     "
 }
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
     helpFunction
 fi
 USAGE=$'[-?\n@(#)$Id: 'servctl' $\n]'
@@ -36,7 +36,7 @@ while getopts "$USAGE" optchar; do
       T ) doas sv u "$2" ;;
       B ) doas sv d "$2" ;;
       R ) doas sv r "$2" ;;
-      L ) [[ $2 = "created" ]] && lsd /etc/sv || lsd /var/service ;;
+      L ) if [[ $2 = "created" ]]; then ls /etc/sv; else ls /var/service; fi ;;
       S ) doas sv s "$2" ;;
    esac
 done
