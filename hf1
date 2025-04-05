@@ -1,0 +1,17 @@
+#!/bin/sh
+. /etc/os-release
+id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)
+id=${id##* }
+green="\033[92m"
+yellow="\033[93m"
+reg="\033[95m"
+white="\033[0m"
+printf "
+  ${green}pc${white} ~ $(hostname)
+  ${green}os${white} ~ ${PRETTY_NAME}
+  ${green}sh${white} ~ ${SHELL##*/}
+  ${green}wm${white} ~ $(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t | grep '^_NET_WM_NAME' | cut -d\" -f 2)
+  ${green}kr${white} ~ $(uname -r)
+  ><> ${reg}welcome to ${green}earth${reg}, ${yellow}${USER}${reg}
+
+"

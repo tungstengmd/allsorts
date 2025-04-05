@@ -9,12 +9,13 @@ OPTIONS
     -B, --bottom  - stop a service
     -R, --restart - restart a service
     -L, --list    - list running services (if next arg is created, lists all services)
+    -S, --status  - show service status, so sweet
     -H, --help    - display this help
+        --man     - display the man page (kinda)
     "
+    exit 1
 }
-if [ -z "$1" ]; then
-    helpFunction
-fi
+[ -z $1 ] && helpFunction
 USAGE=$'[-?\n@(#)$Id: 'servctl' $\n]'
 USAGE+="[-author?harlow]"
 USAGE+="[-copyright?no one]"
@@ -27,7 +28,9 @@ USAGE+="[T:top?turn a service on]"
 USAGE+="[B:bottom?turn a service off]"
 USAGE+="[R:restart?restart a service (useful for breakages)]"
 USAGE+="[L:list?list enabled services (or all if next arg is created)]"
+USAGE+="[S:status?show status of a service]"
 USAGE+="[H:help?display the help]"
+USAGE+="[10:edit?edit a service]"
 while getopts "$USAGE" optchar; do
    case $optchar in
       E ) doas ln -s /etc/sv/"$2" /var/service/ ;;
@@ -35,8 +38,9 @@ while getopts "$USAGE" optchar; do
       H ) helpFunction ;;
       T ) doas sv u "$2" ;;
       B ) doas sv d "$2" ;;
-      R ) doas sv r "$2" ;;
-      L ) if [[ $2 = "created" ]]; then ls /etc/sv; else ls /var/service; fi ;;
+      R ) doas sv restart "$2" ;;
+      L ) [[ $2 = "created" ]] && ls /etc/sv || ls /var/service ;;
       S ) doas sv s "$2" ;;
+      10 ) doas vim /etc/sv/"$2"/run
    esac
 done
