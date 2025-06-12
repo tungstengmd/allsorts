@@ -1,17 +1,16 @@
 #!/bin/sh
 . /etc/os-release
-id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)
-id=${id##* }
-green="\033[92m"
-yellow="\033[93m"
-reg="\033[95m"
-white="\033[0m"
-printf "
-  ${green}pc${white} ~ $(hostname)
-  ${green}os${white} ~ ${PRETTY_NAME}
-  ${green}sh${white} ~ ${SHELL##*/}
-  ${green}wm${white} ~ $(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t | grep '^_NET_WM_NAME' | cut -d\" -f 2)
-  ${green}kr${white} ~ $(uname -r)
-  ><> ${reg}welcome to ${green}earth${reg}, ${yellow}${USER}${reg}
-
+green="[92m"
+yellow="[93m"
+reg="[95m"
+white="[0m"
+printf '%s\n' "
+  ${yellow}$(whoami)@$(hostname)
+  ${green}ω${white} ~ ${PRETTY_NAME}
+  ${green}σ${white} ~ ${SHELL##*/}
+  ${green}υ${white} ~ $(wmctrl -m | sed -n '1p' | sed 's/Name: //')
+  ${green}κ${white} ~ $(uname -r)
+  ${green}ι${white} ~ $(ps -ocomm --no-headers 1)
+  [30m███[31m███[32m███[33m███[34m███[35m███[36m███[37m███
+  [90m███[91m███[92m███[93m███[94m███[95m███[96m███[97m███
 "
