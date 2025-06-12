@@ -12,34 +12,29 @@ OPTIONS
     -S, --status  - show service status, so sweet
 	--edit    - edit service
 	--ls-all  - list all services, even disabled ones
+	--remove  - [DANGEROUS OPERATION] remove a service entirely
     -H, --help    - display this help
         --man     - display the man page (kinda)
     "
     exit 1
 }
-function doas {
-    issudo="$(type sudo 2>/dev/null; echo $?)"
-    isdoas="$(type doas 2>/dev/null; echo $?)"
-    [ $issudo = "0" ] && cmd="$(sudo "$@")"
-    [ $isdoas = "0" ] && cmd="$(doas "$@")"
-}
 [ -z $1 ] && $0 -?
 USAGE=$'[-?\na\ what][-author?aster][-copyright?no one][-license?none, i don''t license my shit][+NAME?servctl - sv wrapper][+DESCRIPTION?an sv wrapper for param lovers][E:enable?enable a service][D:disable?disable a service][T:top?turn a service on][B:bottom?turn a service off][R:restart?restart a service (useful for breakages)][12:remove?remove service (ONLY DO THIS IF YOU KNOW WHAT YOU ARE DOING!!!)][L:list?list enabled services][10:ls-all?list all services, even disabled ones][S:status?show status of a service][11:edit?edit a service][H:help?display the help]'
 while getopts "$USAGE" optchar; do
     case $optchar in
-        E  ) $cmd ln -s /etc/sv/"$2" /var/service/ ;;
-        D  ) $cmd rm /var/service/"$2" ;;
+        E  ) ln -s /etc/sv/"$2" /var/service/ ;;
+        D  ) rm /var/service/"$2" ;;
         H  ) helpFunction ;;
-        T  ) $cmd sv u   "$2" ;;
-        B  ) $cmd sv d   "$2" ;;
-        R  ) $cmd sv tcu "$2" ;;
+        T  ) sv u   "$2" ;;
+        B  ) sv d   "$2" ;;
+        R  ) sv tcu "$2" ;;
         L  ) ls /var/service ;;
         10 ) ls /etc/sv ;;
-        S  ) $cmd sv s "$2" ;;
-        11 ) $cmd vim /etc/sv/"$2"/run ;;
+        S  ) sv s   "$2" ;;
+        11 ) vim /etc/sv/"$2"/run ;;
         12 ) prgm="$2"
 	printf "ONLY DO THIS AT YOUR OWN RISK!\nare you sure you are willing to perform this potentially dangerous operation? (yes/[*])\n$ "
         read choice
-	[ $choice = "yes" ] && { $cmd rm /var/service/"$prgm"/; $cmd rm -rf /etc/sv/"$prgm"/; } ;;
+	[ $choice = "yes" ] && { rm /var/service/"$prgm"/; rm -rf /etc/sv/"$prgm"/; } ;;
     esac
 done
