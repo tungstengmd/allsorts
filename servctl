@@ -19,7 +19,7 @@ OPTIONS
     exit 1
 }
 [ -z $1 ] && $0 -?
-USAGE=$'[-?\na\ what][-author?aster][-copyright?no one][-license?none, i don''t license my shit][+NAME?servctl - sv wrapper][+DESCRIPTION?an sv wrapper for param lovers][E:enable?enable a service][D:disable?disable a service][T:top?turn a service on][B:bottom?turn a service off][R:restart?restart a service (useful for breakages)][12:remove?remove service (ONLY DO THIS IF YOU KNOW WHAT YOU ARE DOING!!!)][L:list?list enabled services][10:ls-all?list all services, even disabled ones][S:status?show status of a service][11:edit?edit a service][H:help?display the help]'
+USAGE=$'[-?\na\ what][-author?aster][-license?zlib license, as with all of my work except anything deemed unserious][+NAME?servctl - sv wrapper][+DESCRIPTION?an sv wrapper for param lovers][E:enable?enable a service][D:disable?disable a service][T:top?turn a service on][B:bottom?turn a service off][R:restart?restart a service (useful for breakages)][12:remove?remove service (ONLY DO THIS IF YOU KNOW WHAT YOU ARE DOING!!!)][L:list?list enabled services][10:ls-all?list all services, even disabled ones][S:status?show status of a service][11:edit?edit a service][H:help?display the help]'
 while getopts "$USAGE" optchar; do
     case $optchar in
         E  ) ln -s /etc/sv/"$2" /var/service/ ;;
